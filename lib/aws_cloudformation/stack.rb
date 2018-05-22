@@ -6,14 +6,14 @@ module DTKModule
       attr_reader :attributes
 
       def self.converge(all_attributes)
-        @region = attributes_hash[:region] || 'us-east-1'
         attributes_hash = all_attributes.av_hash rescue all_attributes
+        @region = attributes_hash[:region] || 'us-east-1'       
         @stack_name = attributes_hash[:stack_name]
         parameters_hash = attributes_hash[:parameters]
         template_url = attributes_hash[:template_url]
         capabilites = attributes_hash[:capabilities]
 
-        @cloudformation ||= Aws::CloudFormation::Client.new(region: @region)
+        @cloudformation ||= ::Aws::CloudFormation::Client.new(region: @region)
 
         raise '@stack_name missing' unless @stack_name
 
@@ -38,7 +38,7 @@ module DTKModule
         @region = attributes_hash[:region] || 'us-east-1'
         attributes_hash = all_attributes.av_hash rescue all_attributes
         @stack_name = attributes_hash[:stack_name]
-        @cloudformation ||= Aws::CloudFormation::Client.new(region: @region)
+        @cloudformation ||= ::Aws::CloudFormation::Client.new(region: @region)
         # delete stack and wait for the operation to finish
         delete_stack
         delete_stack_waiter
