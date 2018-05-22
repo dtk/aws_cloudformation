@@ -1,0 +1,34 @@
+---
+dsl_version: 
+module: aws/aws_cloudformation
+version: 0.0.1
+dependent_modules:
+  dtk_stdlib/dtk_stdlib: 1.0.0
+  dtk-provider/ruby-provider: 1.0.0
+component_defs:
+  stack:
+    attributes:
+      stack_name:
+        description: Name of CloudFormation stack
+        type: string
+        required: true
+      parameters:
+        description: Hash of names and values of CloudFormation parameters
+        type: hash
+      region:
+        description: AWS region
+        type: string
+      template_url:
+        description: S3 URL of CloudFormation template
+        type: string
+      capabilites:
+        description: Valid Values - CAPABILITY_IAM | CAPABILITY_NAMED_IAM
+        type: array
+    singleton: false
+    actions:
+      create:
+        type: ruby
+        entrypoint: bin/stack__converge.rb
+      delete:
+        type: ruby
+        entrypoint: bin/stack__delete.rb
